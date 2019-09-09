@@ -4,11 +4,7 @@ import Channel from './Channel'
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const ChannelStyle = styled.div`
-  padding: 50px;
-`
-
-export const ChannelList = () => {
+const ChannelList = () => {
     const [channels, setChannels] = useState<Channel[]>([]);
 
     useEffect(() => {
@@ -57,5 +53,9 @@ export const ChannelList = () => {
         </ChannelStyle>
     );
 };
+
+const ChannelStyle = styled.div`
+  padding: 50px;
+`
 
 export default ChannelList;

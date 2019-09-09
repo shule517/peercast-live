@@ -8,43 +8,6 @@ type Props = {
     channel: Channel,
 }
 
-const StyledButton = styled.button`
-  background: transparent;
-  border-radius: 3px;
-  border: 2px solid palevioletred;
-  color: palevioletred;
-  margin: 0 1em;
-  padding: 0.25em 1em;
-`
-
-const Thumbnail = styled.img`
-  width: 347.5px;
-  height: 195.47px;
-`
-
-const Title = styled.div`
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 16.8px;
-  font-color: rgb(25, 23, 28);
-  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin-top: 5px;
-  margin-bottom: 2px;
-`
-
-const Details = styled.div`
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 18px;
-  font-color: rgb(50, 47, 55);
-  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
-`
-
-const ChannelItemStyle = styled.div`
-  float: left;
-  padding: 10px;
-`
-
 const ChannelItem = (props: Props) => {
     const {
         channel,
@@ -101,5 +64,42 @@ const ChannelItem = (props: Props) => {
         </ChannelItemStyle>
     );
 };
+
+const StyledButton = styled.button`
+  background: transparent;
+  border-radius: 3px;
+  border: 2px solid palevioletred;
+  color: palevioletred;
+  margin: 0 1em;
+  padding: 0.25em 1em;
+`
+
+const Thumbnail = styled.img`
+  width: 347.5px;
+  height: 195.47px;
+`
+
+const Title = styled.div`
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16.8px;
+  color: rgb(25, 23, 28);
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin-top: 5px;
+  margin-bottom: 2px;
+`
+
+const Details = styled.div`
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  color: rgb(50, 47, 55);
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+`
+
+const ChannelItemStyle = styled.div`
+  float: left;
+  padding: 10px;
+`
 
 export default ChannelItem;
