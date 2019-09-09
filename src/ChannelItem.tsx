@@ -14,9 +14,10 @@ const StyledButton = styled.button`
   border: 2px solid palevioletred;
   color: palevioletred;
   margin: 0 1em;
-  padding: 0.25em 1em;`
+  padding: 0.25em 1em;
+`
 
-  const ChannelItem = (props: Props) => {
+const ChannelItem = (props: Props) => {
     const {
         channel,
     } = props;
@@ -25,7 +26,7 @@ const StyledButton = styled.button`
         <div>
             <StyledButton onClick={() => {
                 var videoElement = document.getElementById('videoElement');
-                const url = `http://ec2-18-222-202-2.us-east-2.compute.amazonaws.com:7144/stream/${channel.streamId}.flv?auth=JkVYNUxQTmVaTUEwWSdlMDouSWhDQnE7c1lZKCFyeXVY`;
+                const url = `http://ec2-18-222-202-2.us-east-2.compute.amazonaws.com:7144/stream/${channel.streamId}.flv?auth=JkVYNUxQTmVaTUEwWSdlMDouSWhDQnE7c1lZKCFyeXVY&tip=${channel.tip}`;
                 var flvPlayer = flvjs.createPlayer({
                     type: 'flv',
                     isLive: true,
