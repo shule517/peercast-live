@@ -2,6 +2,11 @@ import * as React from 'react';
 import ChannelItem from './ChannelItem'
 import Channel from './Channel'
 import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+
+const ChannelStyle = styled.div`
+  padding: 50px;
+`
 
 export const ChannelList = () => {
     const [channels, setChannels] = useState<Channel[]>([]);
@@ -11,8 +16,9 @@ export const ChannelList = () => {
             const tp_res = await fetch('http://temp.orz.hm/yp/index.txt', {credentials: 'same-origin'});
             const tp_text = await tp_res.text();
 
-            const sp_res = await fetch('http://bayonet.ddo.jp/sp/index.txt', {credentials: 'same-origin'});
-            const sp_text = await sp_res.text();
+            // const sp_res = await fetch('http://bayonet.ddo.jp/sp/index.txt', {credentials: 'same-origin'});
+            // const sp_text = await sp_res.text();
+            const sp_text = "";
 
             const text = tp_text + '\n' + sp_text;
             const lines = text.split('\n');
@@ -42,13 +48,13 @@ export const ChannelList = () => {
     }, []);
 
     return (
-        <div>
+        <ChannelStyle>
             {
                 channels.filter(channel => channel.type === 'FLV').map((item, index) => {
                     return <ChannelItem key={index} channel={item}/>
                 })
             }
-        </div>
+        </ChannelStyle>
     );
 };
 
