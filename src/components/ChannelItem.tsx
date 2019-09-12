@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Channel from './Channel';
+import Channel from '../Channel';
 
 declare var flvjs: any;
 

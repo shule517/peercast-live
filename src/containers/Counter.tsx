@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
-import { add, decrement, increment } from "../actions/counter";
+import { CounterState, add, decrement, increment } from "../modules/Counter";
 import Counter from "../components/Counter";
-import { CounterState } from "../reducer";
+// import { CounterState } from "../modules/counter";
 
 interface StateProps {
   count: number;

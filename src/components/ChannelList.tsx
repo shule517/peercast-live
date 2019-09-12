@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ChannelItem from './ChannelItem'
-import Channel from './Channel'
+import Channel from '../Channel'
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
