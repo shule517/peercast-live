@@ -63,15 +63,17 @@ const ChannelItem = (props: Props) => {
         <ChannelItemStyle onClick={() => onSelectChannel()}>
             <a>
                 <div>
-                    <Thumbnail id={thumnbailElementId} src="./thumbnail.png" hidden={!hiddenPlayer} />
+                    <Thumbnail id={thumnbailElementId} src="./live-chuu.png" hidden={!hiddenPlayer} />
                     <video id={videoElementId} controls width="347.5" height="195.47" hidden={hiddenPlayer}></video>
                 </div>
-                <div>
-                    <Title>{channel.name}</Title>
-                    <Details>
+                <ChannelDetail>
+                    <Title>
                         {channelDetail(channel)}
+                    </Title>
+                    <Details>
+                        {channel.name}
                     </Details>
-                </div>
+                </ChannelDetail>
             </a>
         </ChannelItemStyle>
     );
@@ -91,7 +93,15 @@ const Thumbnail = styled.img`
   height: 195.47px;
 `
 
+const ChannelDetail = styled.div`
+  padding: 0px 5px;
+`
+
 const Title = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;  width: 347px;
+
   font-size: 14px;
   font-weight: 600;
   line-height: 16.8px;
