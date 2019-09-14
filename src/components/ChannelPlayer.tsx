@@ -56,6 +56,8 @@ const ChannelPlayer = (props: Props) => {
     let flvPlayer: any = null;
     let hiddenPlayer = true;
 
+    window.scrollTo(0, 0);
+
     useEffect(() => {
         let videoElement:any = document.getElementById(videoElementId);
         videoElement.hidden = false;
@@ -79,7 +81,7 @@ const ChannelPlayer = (props: Props) => {
         <ChannelItemStyle>
             <a>
                 <div>
-                    <video id={videoElementId} controls width="800"></video>
+                    <video id={videoElementId} controls width="100%"></video>
                 </div>
                 <ChannelDetail>
                     <Title>
