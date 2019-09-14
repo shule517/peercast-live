@@ -35,24 +35,36 @@ const ChannelItem = (props: Props) => {
         return text;
     }
 
+    const videoElementId = `videoElement-${channel.streamId}`;
+    const thumnbailElementId = `thumnbailElement-${channel.streamId}`;
+    let flvPlayer: any = null;
+    let hiddenPlayer = true;
     const onSelectChannel = () => {
-        var videoElement = document.getElementById('videoElement');
-        const url = `http://ec2-18-222-202-2.us-east-2.compute.amazonaws.com:7144/stream/${channel.streamId}.flv?auth=JkVYNUxQTmVaTUEwWSdlMDouSWhDQnE7c1lZKCFyeXVY&tip=${channel.tip}`;
-        var flvPlayer = flvjs.createPlayer({
-            type: 'flv',
-            isLive: true,
-            url: url
-        });
-        flvPlayer.attachMediaElement(videoElement);
-        flvPlayer.load();
-        flvPlayer.play();
+        if (!flvPlayer) {
+            let thumnbailElement:any = document.getElementById(thumnbailElementId);
+            thumnbailElement.hidden = true;
+
+            let videoElement:any = document.getElementById(videoElementId);
+            videoElement.hidden = false;
+            const url = `http://ec2-18-222-202-2.us-east-2.compute.amazonaws.com:7144/stream/${channel.streamId}.flv?auth=JkVYNUxQTmVaTUEwWSdlMDouSWhDQnE7c1lZKCFyeXVY&tip=${channel.tip}`;
+            flvPlayer = flvjs.createPlayer({
+                type: 'flv',
+                isLive: true,
+                url: url
+            });
+            flvPlayer.attachMediaElement(videoElement);
+            flvPlayer.load();
+            flvPlayer.play();
+            hiddenPlayer = false;
+        }
     };
 
     return (
         <ChannelItemStyle onClick={() => onSelectChannel()}>
             <a>
                 <div>
-                    <Thumbnail src="./thumbnail.png" />
+                    <Thumbnail id={thumnbailElementId} src="./thumbnail.png" hidden={!hiddenPlayer} />
+                    <video id={videoElementId} controls width="347.5" height="195.47" hidden={hiddenPlayer}></video>
                 </div>
                 <div>
                     <Title>{channel.name}</Title>
@@ -90,6 +102,9 @@ const Title = styled.div`
 `
 
 const Details = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;  width: 347px;
   font-size: 12px;
   font-weight: 400;
   line-height: 18px;

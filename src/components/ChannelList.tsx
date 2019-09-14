@@ -12,9 +12,9 @@ const ChannelList = () => {
             const tp_res = await fetch('http://temp.orz.hm/yp/index.txt', {credentials: 'same-origin'});
             const tp_text = await tp_res.text();
 
-            // const sp_res = await fetch('http://bayonet.ddo.jp/sp/index.txt', {credentials: 'same-origin'});
-            // const sp_text = await sp_res.text();
-            const sp_text = "";
+            const sp_res = await fetch('http://bayonet.ddo.jp/sp/index.txt', {credentials: 'same-origin'});
+            const sp_text = await sp_res.text();
+            // const sp_text = "";
 
             const text = tp_text + '\n' + sp_text;
             const lines = text.split('\n');
@@ -38,6 +38,21 @@ const ChannelList = () => {
                 } }
             );
             setChannels(channels);
+
+            // const channel: any = {
+            //     name: 'kumakuma',
+            //     streamId: '5CF11CECC565B44BC501F34EE79ACCFC',
+            //     tip: '',
+            //     contactUrl: 'http://jbbs.shitaraba.net/computer/39120/',
+            //     genre: 'tp?@PS4',
+            //     details: 'Assassin\'sCreed Odyssey',
+            //     listenerCount: 99,
+            //     relayCount: 99,
+            //     bitrate: 1478,
+            //     type: 'FLV',
+            // }
+            // const channels: any = [channel];
+            // setChannels(channels);
         };
 
         fetchData();
@@ -55,7 +70,7 @@ const ChannelList = () => {
 };
 
 const ChannelStyle = styled.div`
-  padding: 50px;
+  /* padding: 50px; */
 `
 
 export default ChannelList;
