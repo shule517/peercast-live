@@ -1,23 +1,38 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Channel from '../Channel';
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react';
 
 declare var flvjs: any;
 
 type Props = {
-    channel: Channel,
+    streamId: String,
+    channels: Channel[],
 }
 
-const ChannelItem = (props: Props) => {
+const ChannelPlayer = (props: Props) => {
     const {
-        channel,
+        streamId,
+        channels,
     } = props;
 
+    const channel: any = channels.find((channel) => channel.streamId === streamId) || {
+        name: 'チャンネルが見つかりません',
+        streamId: '',
+        tip: '',
+        contactUrl: '',
+        genre: '',
+        details: '',
+        listenerCount: 0,
+        relayCount: 0,
+        bitrate: 0,
+        type: 'FLV',
+    }
+
     function unescapeHTML(html: string) {
-      var escapeEl = document.createElement('textarea');
-      escapeEl.innerHTML = html;
-      return escapeEl.textContent;
+    var escapeEl = document.createElement('textarea');
+    escapeEl.innerHTML = html;
+    return escapeEl.textContent;
     }
 
     const channelDetail = (channel: Channel) => {
@@ -40,15 +55,14 @@ const ChannelItem = (props: Props) => {
     const thumnbailElementId = `thumnbailElement-${channel.streamId}`;
     let flvPlayer: any = null;
     let hiddenPlayer = true;
-    const onSelectChannel = () => {
-        return;
-        if (!flvPlayer) {
-            let thumnbailElement:any = document.getElementById(thumnbailElementId);
-            thumnbailElement.hidden = true;
 
-            let videoElement:any = document.getElementById(videoElementId);
-            videoElement.hidden = false;
-            const url = `http://peca.live:7144/stream/${channel.streamId}.flv?auth=JkVYNUxQTmVaTUEwWSdlMDouSWhDQnE7c1lZKCFyeXVY&tip=${channel.tip}`;
+    useEffect(() => {
+        let videoElement:any = document.getElementById(videoElementId);
+        videoElement.hidden = false;
+        console.log('channel.streamId:' + channel.streamId)
+        if (channel.streamId.length > 0) {
+            console.log('aaa')
+            const url = `http://peca.live:7144/stream/${channel.streamId}.flv?tip=${channel.tip}`;
             flvPlayer = flvjs.createPlayer({
                 type: 'flv',
                 isLive: true,
@@ -59,14 +73,13 @@ const ChannelItem = (props: Props) => {
             flvPlayer.play();
             hiddenPlayer = false;
         }
-    };
+    })
 
     return (
-        <Link to={`/channels/${channel.streamId}`}>
-            <ChannelItemStyle onClick={() => onSelectChannel()}>
+        <ChannelItemStyle>
+            <a>
                 <div>
-                    <Thumbnail id={thumnbailElementId} src="./live-chuu.png" hidden={!hiddenPlayer} />
-                    <video id={videoElementId} controls width="347.5" height="195.47" hidden={hiddenPlayer}></video>
+                    <video id={videoElementId} controls width="800"></video>
                 </div>
                 <ChannelDetail>
                     <Title>
@@ -76,8 +89,8 @@ const ChannelItem = (props: Props) => {
                         {channel.name}
                     </Details>
                 </ChannelDetail>
-            </ChannelItemStyle>
-        </Link>
+            </a>
+        </ChannelItemStyle>
     );
 };
 
@@ -129,4 +142,4 @@ const ChannelItemStyle = styled.div`
   padding: 10px;
 `
 
-export default ChannelItem;
+export default ChannelPlayer;

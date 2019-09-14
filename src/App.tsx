@@ -1,119 +1,10 @@
-// import React, { FC } from 'react';
-// import Counter from './containers/Counter';
-// import './App.css';
-
-// const App: FC = () => (
-//   <div className="container">
-//     <header>
-//       <h1>ビーズカウンター</h1>
-//     </header>
-//     <Counter />
-//   </div>
-// );
-
-// export default App;
-
-// import React, { Component } from "react";
-// import { Button, Card, Statistic } from "semantic-ui-react";
-// import "./App.css";
-// interface AppState {
-//   count: number;
-// }
-// class App extends Component<{}, AppState> {
-//   constructor(props: {}) {
-//     super(props);
-//     this.state = { count: 0 };
-//   }
-//   increment() {
-//     this.setState(prevState => ({
-//       count: prevState.count + 1
-//     }));
-//   }
-//   decrement() {
-//     this.setState(prevState => ({
-//       count: prevState.count - 1
-//     }));
-//   }
-//   render() {
-//     const { count } = this.state;
-//     return (
-//       <div className="container">
-//         <header>
-//           <h1>カ ウ ン タ ー </h1>
-//         </header>
-//         <Card>
-//           <Statistic className="number-board">
-//             <Statistic.Label>count</Statistic.Label>
-//             <Statistic.Value>{count}</Statistic.Value>
-//           </Statistic>
-//           <Card.Content>
-//             <div className="ui two buttons">
-//               <Button color="red" onClick={() => this.decrement()}>
-//                 -1
-//               </Button>
-//               <Button color="green" onClick={() => this.increment()}>
-//                 +1
-//               </Button>
-//             </div>
-//           </Card.Content>
-//         </Card>
-//       </div>
-//     );
-//   }
-// }
-// export default App;
-
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Header from './Header';
 import ChannelList from './components/ChannelList';
+import ChannelPlayer from './components/ChannelPlayer';
 import { BrowserRouter, Route, Link } from 'react-router-dom'
-
-import Counter from './components/Counter';
-
-// // // type AppProps = {
-// // //   fuga: string,
-// // //   handleClick: () => void;
-// // // }
-
-// // // type Props = {
-// // //   // fuga: string,
-// // //   // handleClick: () => void;
-// // // }
-
-// // // const App = (props: Props) => {
-// // //   const {
-// // //     // fuga,
-// // //     // handleClick
-// // //   } = props;
-
-// // //   return (
-// // //     <div>
-// // //       {/* <span>{fuga}</span> */}
-// // //       {/* <button onClick={ () => handleClick() }>増加</button> */}
-// // //     </div>
-// // //   );
-// // // }
-
-// // // const App: FC<HeaderProps> = ({ name, children }) => {
-// // //   return (
-// // //     <div>
-// // //       <p>{name}さんこんにちは</p>
-// // //       <div>{children}</div>
-// // //     </div>
-// // //   )
-// // // }
-// // // export default class App extends React.Component {
-// // //   render() {
-// // //     return <div>
-// // //       <span>{this.props.fuga}</span>
-// // //       <button onClick={ () => this.props.handleClick() }>増加</button>
-// // //     </div>
-// // //   }
-// // // }
-
 import styled from 'styled-components';
+import Channel from './Channel'
+import { useState, useEffect } from 'react';
 
 const ChannelStyle = styled.div`
   padding: 40px;
@@ -125,50 +16,59 @@ const Logo = styled.img`
   padding-left: 7px;
 `
 
-const App = () => (
-  // <Counter />
-  <ChannelStyle>
-    <Logo src="pecalive.png" />
-    <ChannelList />
-  </ChannelStyle>
-  // <BrowserRouter>
-  //   <div>
-  //     <ul>
-  //       <li><Link to='/'>Home</Link></li>
-  //       <li><Link to='/about'>About</Link></li>
-  //       <li><Link to='/friends'>Friends</Link></li>
-  //     </ul>
+const App = () => {
+  const [channels, setChannels] = useState<Channel[]>([]);
 
-  //     <Route exact path='/' component={Home} />
-  //     <Route path='/about' component={About} />
-  //     <Route path='/friends' component={Friends} />
-  //     <Route path='/menus/:id' component={ChannelList} />
-  //   </div>
-  // </BrowserRouter>
-)
+  useEffect(() => {
+      const fetchData = async () => {
+          const res = await fetch('https://peca-live.herokuapp.com/api/v1/channels', {credentials: 'same-origin'});
+          const text = await res.text();
+          const lines = text.split('\n');
 
-// const App: React.FC = () => {
-//   return (
-//     <div className="App">
-//       <Header />
-//       <ChannelList />
+          const channels: any = lines.map(line => {
+              const elements = line.split('<>');
+              const type = elements[9];
+              if (type === null) { return null; }
 
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <div>
-//           Edit <code>src/App.tsx</code> and save to reload.
-//         </div>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
+              return {
+                  name: elements[0],          // A.ch
+                  streamId: elements[1],      // 0C1A6C6959CEB2A8BF9598BC9185FF32
+                  tip: elements[2],           // 14.13.42.64:5184
+                  contactUrl: elements[3],    // http://jbbs.shitaraba.net/bbs/read.cgi/game/52685/1567349533/
+                  genre: elements[4],         // PS4
+                  details: elements[5],       // モンスターハンターワールド：アイスボーン MHWIB - &lt;Open&gt;
+                  listenerCount: elements[6], // -1
+                  relayCount: elements[7],    // -1
+                  bitrate: elements[8],       // 1500
+                  type: type,                 // FLV
+              } }
+          );
+          setChannels(channels);
+      };
+
+      fetchData();
+  }, []);
+
+  return (
+    <BrowserRouter>
+      <ChannelStyle>
+        <Link to='/'>
+          <Logo src="/pecalive.png" />
+        </Link>
+        <div>
+          <Route exact path='/' render={(props) => <ChannelList channels={channels} />} />
+          <Route path='/channels/:streamId' render={
+              (props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels}/>}
+            }
+          />
+        </div>
+      </ChannelStyle>
+
+    </BrowserRouter>
+  )
+}
+
+{/* <ChannelPlayer channel={channels.find((channel) => channel.streamId === props.match.params.id)} /> */}
+
 
 export default App;
