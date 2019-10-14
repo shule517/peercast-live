@@ -22,28 +22,33 @@ const App = () => {
   useEffect(() => {
       const fetchData = async () => {
           const res = await fetch('https://peca-live.herokuapp.com/api/v1/channels', {credentials: 'same-origin'});
-          const text = await res.text();
-          const lines = text.split('\n');
+          const response = await res.json() as Array<any>;
 
-          const channels: any = lines.map(line => {
-              const elements = line.split('<>');
-              const type = elements[9];
-              if (type === null) { return null; }
+          const channels: any = response.map(channel => {
+            const type = channel.contentType;
+            if (type === null) { return null; }
 
-              return {
-                  name: elements[0],          // A.ch
-                  streamId: elements[1],      // 0C1A6C6959CEB2A8BF9598BC9185FF32
-                  tip: elements[2],           // 14.13.42.64:5184
-                  contactUrl: elements[3],    // http://jbbs.shitaraba.net/bbs/read.cgi/game/52685/1567349533/
-                  genre: elements[4],         // PS4
-                  details: elements[5],       // モンスターハンターワールド：アイスボーン MHWIB - &lt;Open&gt;
-                  listenerCount: elements[6], // -1
-                  relayCount: elements[7],    // -1
-                  bitrate: elements[8],       // 1500
-                  type: type,                 // FLV
-              } }
-          );
-          setChannels(channels);
+            return {
+                name: channel.name,                   // A.ch
+                streamId: channel.channelId,          // 0C1A6C6959CEB2A8BF9598BC9185FF32
+                tip: channel.tracker,                 // 14.13.42.64:5184
+                contactUrl: channel.contactUrl,       // http://jbbs.shitaraba.net/bbs/read.cgi/game/52685/1567349533/
+                genre: channel.genre,                 // PS4
+                details: channel.description,         // モンスターハンターワールド：アイスボーン MHWIB - &lt;Open&gt;
+                listenerCount: channel.listeners,     // -1
+                relayCount: channel.relays,           // -1
+                bitrate: channel.bitrate,             // 1500
+                type: type,                           // FLV
+                album: channel.album,
+                comment: channel.comment,
+                creator: channel.creator,
+                trackTitle: channel.trackTitle,
+                trackUrl: channel.trackUrl,
+                uptime: channel.uptime,
+                yellowPage: channel.yellowPage,
+            } }
+        );
+        setChannels(channels);
       };
 
       fetchData();
