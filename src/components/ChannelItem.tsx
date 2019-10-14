@@ -48,7 +48,7 @@ const ChannelItem = (props: Props) => {
 
             let videoElement:any = document.getElementById(videoElementId);
             videoElement.hidden = false;
-            const url = `http://peca.live:7144/stream/${channel.streamId}.flv?auth=JkVYNUxQTmVaTUEwWSdlMDouSWhDQnE7c1lZKCFyeXVY&tip=${channel.tip}`;
+            const url = `http://150.95.177.111:7144/stream/${channel.streamId}.flv?auth=JkVYNUxQTmVaTUEwWSdlMDouSWhDQnE7c1lZKCFyeXVY&tip=${channel.tip}`;
             flvPlayer = flvjs.createPlayer({
                 type: 'flv',
                 isLive: true,

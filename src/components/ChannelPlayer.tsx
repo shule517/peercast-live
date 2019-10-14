@@ -64,7 +64,7 @@ const ChannelPlayer = (props: Props) => {
         console.log('channel.streamId:' + channel.streamId)
         if (channel.streamId.length > 0) {
             console.log('aaa')
-            const url = `http://peca.live:7144/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+            const url = `http://150.95.177.111:7144/stream/${channel.streamId}.flv?tip=${channel.tip}`;
             flvPlayer = flvjs.createPlayer({
                 type: 'flv',
                 isLive: true,
