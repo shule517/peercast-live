@@ -9,6 +9,13 @@ type Channel = {
     relayCount: string,     // -1
     bitrate: string,        // 1500
     type: string,           // FLV
+    album: string,
+    comment: string,
+    creator: string,
+    trackTitle: string,
+    trackUrl: string,
+    uptime: string,
+    yellowPage: string,
 }
 
 export default Channel;
